@@ -12,10 +12,13 @@ public class PreemptivePriorityScheduler {
          */
         boolean userInput = false;
         ArrayList<Process> processes = new ArrayList<>();
+
         ProcessesInitializer();
         SimulateScheduler();
 
-    private class ProcessesInitializer {
+        scanner.close();
+
+    private static void ProcessesInitializer {
         if (userInput) {
             int Processes = scanner.nextInt();
             for (int i = 0; i < Processes; i++) {
@@ -41,7 +44,7 @@ public class PreemptivePriorityScheduler {
          * This will then be used to calculate the waiting time, turnaround time, and completion time for each process.
          * Since the for loop will go trough each based on its values and decrease burst time
          */
-    private class SimulateScheduler {
+    private static void SimulateScheduler {
         int currentTime = 0;
         int totalCompletionTime = 0;
         int totalWaitingTime = 0;
