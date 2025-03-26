@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * class representing first come first serve algorithm
+ */
 public class FirstComeFirstServe {
 
 
@@ -26,14 +29,24 @@ public class FirstComeFirstServe {
     }
 
 
+    /**
+     * gets total completion time
+     */
     public int getTotalCompletionTime() {
         return totalCompletionTime;
     }
 
+    /**
+     * sets total completion time to new completion time
+     * @param totalCompletionTime
+     */
     public void setTotalCompletionTime(int totalCompletionTime) {
         this.totalCompletionTime = totalCompletionTime;
     }
 
+    /**
+     * runs the first come firs serve algorithm
+     */
     public void runFCFS() {
 
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));
@@ -61,7 +74,9 @@ public class FirstComeFirstServe {
     }
 
 
-
+    /**
+     * prints the time for the processes
+     */
     public void printProcessTime(){
         for(Process process : processes) {
             System.out.println("pid " + process.getProcessID() + ", arrival time" + process.getArrivalTime() + ", burst time " + process.getBurstTime() + ", turnaroundtime " + process.getTurnaroundTime() + ", waiting time :" + process.getWaitingTime());
@@ -69,11 +84,20 @@ public class FirstComeFirstServe {
     }
 
 
+    /**
+     * returns the tournaroundtime for a process
+     * @param process the process to get turnaroundtime from
+     * @return int the tournaroundtime
+     */
     public int getTurnaroundTime(Process process){
         int turnAroundTime = process.getTurnaroundTime();
         return turnAroundTime;
     }
 
+    /**
+     * gets the average turnaroundtime from the processes.
+     * @return int the average turnaroundtime
+     */
     public int getAvgTurnaroundTime(){
         int average = 0;
         for(Process process: processes){
@@ -82,12 +106,21 @@ public class FirstComeFirstServe {
         return average/ processes.size();
     }
 
+    /**
+     * returns the waiting time of a process-
+     * @param process
+     * @return
+     */
     public int calculateWaitingTime(Process process){
         int waitingTime = process.getTurnaroundTime() - process.getBurstTime();
         return waitingTime;
     }
 
 
+    /**
+     * calculate average waiting time
+     * @return the average waiting time
+     */
     public int calculateAvgWaitingTime(){
         int average = 0;
         for(Process process: processes){
@@ -97,8 +130,10 @@ public class FirstComeFirstServe {
     }
 
 
-
-
+    /**
+     * add processes to process array.
+     * nb priority doesnt matter here.
+     */
     public void addProcesses(){
         processes.add(new Process(1, 0, 5, 3));
         processes.add(new Process(2, 1, 3, 1));
