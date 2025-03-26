@@ -13,12 +13,13 @@ public class PreemptivePriorityScheduler {
         boolean userInput = false;
         ArrayList<Process> processes = new ArrayList<>();
 
-        ProcessesInitializer();
-        SimulateScheduler();
+        initializeProcesses(processes, scanner, userInput);
+        simulateScheduler(processes);
 
         scanner.close();
+    }
 
-    private static void ProcessesInitializer {
+    private static void initializeProcesses(ArrayList<Process> processes, Scanner scanner, boolean userInput) {
         if (userInput) {
             int Processes = scanner.nextInt();
             for (int i = 0; i < Processes; i++) {
@@ -44,48 +45,50 @@ public class PreemptivePriorityScheduler {
          * This will then be used to calculate the waiting time, turnaround time, and completion time for each process.
          * Since the for loop will go trough each based on its values and decrease burst time
          */
-    private static void SimulateScheduler {
+    private static void simulateScheduler(ArrayList<Process> processes) {
         int currentTime = 0;
         int totalCompletionTime = 0;
         int totalWaitingTime = 0;
         int totalTurnaroundTime = 0;
         int totalProcesses = processes.size();
-        int lowestPriorityId = null;
+        int lowestPriorityId;
 
         while (!processes.isEmpty()){
+            lowestPriorityId = -1;
             /**
              * Will go trough a for loop to find the lowest priority process that has arrived.
              */
-            for (i = 0; i < totalProcesses; i++) {
+            for (int i = 0; i < processes.size(); i++) {
                 Process process = processes.get(i);
-                if ((process.priority < processes.get(lowestPriorityId).priority) && (process.arrivalTime >= currentTime)) {
-                    lowestPriorityId = i;
+                if (process.arrivalTime <= currentTime) {
+                    if (lowestPriorityId == -1 || process.priority < processes.get(lowestPriorityId).priority) {
+                        lowestPriorityId = i;
+                    }
                 }
             }
 
-            if (lowestPriorityId != null) {
+            if (lowestPriorityId != -1) {
                 Process process = processes.get(lowestPriorityId);
-                process.completionTime =(currentTime + process.burstTime);
-                process.turnaroundTime = (process.completionTime - process.arrivalTime);
-                process.waitingTime = (process.turnaroundTime - process.burstTime);
-                currentTime += 1; //process.getCompletionTime();
+                currentTime += 1;
                 process.remainingTime -= 1;
 
                 if (process.remainingTime == 0) {
+                    process.completionTime = currentTime;
+                    process.turnaroundTime = process.completionTime - process.arrivalTime;
+                    process.waitingTime = process.turnaroundTime - process.burstTime;
                     totalCompletionTime += process.completionTime;
                     totalWaitingTime += process.waitingTime;
-                    System.out.println("Process " + processes.ProcessID + " has completed. With a waiting time of " + process.waitingTime + " and a turnaround time of " + process.turnaroundTime);
+                    System.out.println("Process " + process.processID + " has completed. With a waiting time of " + process.waitingTime + " and a turnaround time of " + process.turnaroundTime);
                     processes.remove(lowestPriorityId);
                 }
-
-            } else {
+            }
+            else {
                 currentTime += 1;
             }
 
         }
         System.out.println("The total completion time is: " + totalCompletionTime);
-        System.out.println("The average waiting time is: " + totalWaitingTime/totalProcesses);
-    }
-
+        System.out.println("The average waiting time is: " + (double)totalWaitingTime/totalProcesses);
     }
 }
+

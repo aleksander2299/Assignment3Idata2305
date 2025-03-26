@@ -1,5 +1,3 @@
-import java.util.*;
-
 /**
  * This class will store the information of a process.
  * This will include the process ID, arrival time, burst time, remaining time, priority, completion time, waiting time, and turnaround time.
@@ -17,7 +15,7 @@ public class Process {
     /**
      * Getters and setters for the process class.
      */
-    /**
+
     public int getProcessID() {
         return processID;
     }
@@ -81,7 +79,7 @@ public class Process {
     public void setTurnaroundTime(int turnaroundTime) {
         this.turnaroundTime = turnaroundTime;
     }
-     */
+
 
     public Process(int processID, int arrivalTime, int burstTime, int priority) {
         this.processID = processID;
