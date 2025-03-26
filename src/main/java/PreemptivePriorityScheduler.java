@@ -19,6 +19,12 @@ public class PreemptivePriorityScheduler {
         scanner.close();
     }
 
+    /**
+     * This method will initialize the processes.
+     * @param processes the processes that will be initialized.
+     * @param scanner the scanner that will be used to get user input.
+     * @param userInput a boolean that will determine if the user wants to provide input.
+     */
     private static void initializeProcesses(ArrayList<Process> processes, Scanner scanner, boolean userInput) {
         if (userInput) {
             int Processes = scanner.nextInt();
@@ -41,9 +47,8 @@ public class PreemptivePriorityScheduler {
     }
 
         /**
-         * Will later set up class which will have a fake timer to simulate the scheduler. and go trough each of the processes in the arraylist.
-         * This will then be used to calculate the waiting time, turnaround time, and completion time for each process.
-         * Since the for loop will go trough each based on its values and decrease burst time
+         * This method will simulate the scheduler.
+         * @param processes the processes that will be scheduled.
          */
     private static void simulateScheduler(ArrayList<Process> processes) {
         int currentTime = 0;
@@ -67,19 +72,26 @@ public class PreemptivePriorityScheduler {
                 }
             }
 
+            /**
+             * If there is a process that has arrived, then the scheduler will run the process.
+             */
             if (lowestPriorityId != -1) {
                 Process process = processes.get(lowestPriorityId);
                 currentTime += 1;
                 process.remainingTime -= 1;
-
+                /**
+                 * If the process has completed, then the completion time, waiting time, and turnaround time will be calculated.
+                 */
                 if (process.remainingTime == 0) {
                     process.completionTime = currentTime;
                     process.turnaroundTime = process.completionTime - process.arrivalTime;
                     process.waitingTime = process.turnaroundTime - process.burstTime;
-                    totalCompletionTime += process.completionTime;
                     totalWaitingTime += process.waitingTime;
                     System.out.println("Process " + process.processID + " has completed. With a waiting time of " + process.waitingTime + " and a turnaround time of " + process.turnaroundTime);
                     processes.remove(lowestPriorityId);
+                    if (processes.isEmpty()) {
+                        totalCompletionTime = process.completionTime;
+                    }
                 }
             }
             else {
